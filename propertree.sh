@@ -47,10 +47,10 @@ propertree() {
         echo "Usage: propertree <command>"
         echo ""
         echo "Commands:"
-        echo "   [no command]   Start ProperTree"
-        echo "   update         Update ProperTree"
-        echo "   uninstall      Uninstall ProperTree"
-        echo "   help           Show help message"
+        echo "   [path/to/plist]   Edit plist file with ProperTree"
+        echo "   update            Update ProperTree"
+        echo "   uninstall         Uninstall ProperTree"
+        echo "   help              Show help message"
         ;;
 
     *)
