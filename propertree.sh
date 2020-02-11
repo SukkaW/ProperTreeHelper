@@ -54,29 +54,65 @@ propertree() {
         ;;
 
     *)
-        if command -v python3 >/dev/null 2>&1; then
-            if [ ! -f "$HOME/.config/propertree/ProperTree.command" ]; then
-                echo '=== ProperTree is not found!'
-                echo -n "Do you want to install ProperTree now?? [y/N] "
-                read -r __propertree_helper_read_install
+        echo ""
 
-                case "$__propertree_helper_read_install" in
+        case "$(uname -s)" in
 
-                [yY][eE][sS] | [yY])
-                    __propertree_helper_install_propertree
-                    ;;
-                *)
-                    return 0
-                    ;;
-                esac
+        Darwin)
+            if command -v python3 >/dev/null 2>&1; then
+                if [ ! -f "$HOME/.config/propertree/ProperTree.command" ]; then
+                    echo '=== ProperTree is not found!'
+                    echo -n "Do you want to install ProperTree now?? [y/N] "
+                    read -r __propertree_helper_read_install
+
+                    case "$__propertree_helper_read_install" in
+
+                    [yY][eE][sS] | [yY])
+                        __propertree_helper_install_propertree
+                        ;;
+                    *)
+                        return 0
+                        ;;
+                    esac
+                else
+                    TK_SILENCE_DEPRECATION=1 $HOME/.config/propertree/ProperTree.command "$@"
+                fi
             else
-                TK_SILENCE_DEPRECATION=1 $HOME/.config/propertree/ProperTree.command "$@"
+                echo '=== python3 is not detected. Please Install python3 first!'
+                return 1
             fi
-        else
-            echo '=== python3 is not detected. Please Install python3 first!'
-            return 1
-        fi
-        ;;
+            ;;
 
+        Linux)
+            echo '=== ProperTree is not supported on Linux!!'
+            ;;
+
+        CYGWIN* | MINGW32* | MSYS*)
+            if command -v python3 >/dev/null 2>&1; then
+                if [ ! -f "$HOME/.config/propertree/ProperTree.bat" ]; then
+                    echo '=== ProperTree is not found!'
+                    echo -n "Do you want to install ProperTree now?? [y/N] "
+                    read -r __propertree_helper_read_install
+
+                    case "$__propertree_helper_read_install" in
+
+                    [yY][eE][sS] | [yY])
+                        __propertree_helper_install_propertree
+                        ;;
+                    *)
+                        return 0
+                        ;;
+                    esac
+                else
+                    TK_SILENCE_DEPRECATION=1 $HOME/.config/propertree/ProperTree.bat "$@"
+                fi
+            else
+                echo '=== python3 is not detected. Please Install python3 first!'
+                return 1
+            fi
+            ;;
+
+        esac
+        ;;
     esac
 }
